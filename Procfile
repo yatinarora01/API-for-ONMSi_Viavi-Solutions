@@ -1,1 +1,1 @@
-web: gunicorn app:app
+web: gunicorn onmsi_facade_v5:app
