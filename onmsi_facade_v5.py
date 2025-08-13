@@ -1,4 +1,3 @@
-# file: onmsi_facade_v5.py
 import requests
 import xmltodict
 import json
@@ -21,6 +20,10 @@ def fetch_detail(url):
         return r.json()
     except ValueError:
         return xmltodict.parse(r.content)
+
+@app.route('/', methods=["GET"])
+def home():
+    return "Welcome to the ONMSi Fiber Remote Testing Solution!"
 
 @app.route("/rs/otus/full", methods=["GET"])
 def otus_full():
