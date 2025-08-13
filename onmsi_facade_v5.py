@@ -1,17 +1,19 @@
-# file: onmsi_facade_v5.py
 import requests
 import xmltodict
 import json
 from flask import Flask, Response
 from requests.auth import HTTPBasicAuth
 import concurrent.futures
-
-ONMSI_BASE = "http://10.33.20.218/rs"
-USER = "admin"
-PASSWORD = "password"
+import os
 
 app = Flask(__name__)
 session = requests.Session()
+
+# Use environment variables for sensitive information
+ONMSI_BASE = os.getenv('ONMSI_BASE', 'http://10.33.20.218/rs')
+USER = os.getenv('USER', 'admin')
+PASSWORD = os.getenv('PASSWORD', 'password')
+
 session.auth = HTTPBasicAuth(USER, PASSWORD)
 
 def fetch_detail(url):
@@ -97,5 +99,6 @@ def otus_full():
     )
 
 if __name__ == "__main__":
-    # run on port 5004 – keep VPN active
-    app.run(host="0.0.0.0", port=5004)
+    # Run on the port provided by the environment
+    port = int(os.environ.get('PORT', 5004))
+    app.run(host="0.0.0.0.0", port=port)
